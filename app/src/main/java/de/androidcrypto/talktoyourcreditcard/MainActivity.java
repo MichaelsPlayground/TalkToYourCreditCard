@@ -316,14 +316,18 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                                  * DO NOT RUN THIS COMMAND IN A LOOP !
                                  */
 
-                                byte[] gpoRequestResponse;
+
+                                byte[] gpoRequestResponse = nfc.transceive(gpoRequestCommand);
+                                /* test for real card
+                                //byte[] gpoRequestResponse;
                                 if (Arrays.equals(aidSelected, hexToBytes("a0000000032011"))) {
                                 //if (Arrays.equals(aidSelected, hexToBytes("a0000000032010"))) {
                                     gpoRequestResponse = nfc.transceive(gpoRequestRealCommand);
                                 } else {
                                     gpoRequestResponse = nfc.transceive(gpoRequestCommand);
                                 }
-                                //byte[] gpoRequestResponse = nfc.transceive(gpoRequestCommand);
+
+                                 */
 
                                 byte[] gpoRequestResponseOk;
                                 writeToUiAppend(etData, "05 get the processing options completed");
