@@ -338,7 +338,6 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                                         writeToUiAppend(prettyPrintDataToString(gpoRequestResponse));
                                     }
                                 }
-                                // todo check for null value when gpo response is null due to wrong command
 
                                 /**
                                  * step 5 code end
