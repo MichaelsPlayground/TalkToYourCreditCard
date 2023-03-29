@@ -275,8 +275,8 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                                     */
                                     writeToUiAppend("found tag 0x9F38 (PDOL) in the selectAid with this length: " + pdolValue.length + " data: " + bytesToHexNpe(pdolValue));
                                     byte[][] gpoRequestCommandArray = getGpoFromPdolExtended(pdolValue, new byte[]{(byte) 0x00}); // 00 = default, maximum 03
-
                                     gpoRequestCommand = gpoRequestCommandArray[0];
+                                    System.out.println("*** gpoRequestCommand Visa: " + bytesToHexNpe(gpoRequestCommand));
                                     String pdolRequestString = new String(gpoRequestCommandArray[1], StandardCharsets.UTF_8);
                                     writeToUiAppend("");
                                     writeToUiAppend(pdolRequestString);
@@ -301,6 +301,9 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                                 printStepHeader(5, "get the processing options");
                                 writeToUiAppend("05 get the processing options  command length: " + gpoRequestCommand.length + " data: " + bytesToHexNpe(gpoRequestCommand));
 
+                                byte[] gpoRequestRealCommand = hexToBytes("80a8000023832136a04000000000002600000000000000027600000000000978230329000cf80aff00");
+                                writeToUiAppend("05 get the processing optionsR command length: " + gpoRequestRealCommand.length + " data: " + bytesToHexNpe(gpoRequestRealCommand));
+
                                 /**
                                  * step 5 code starts
                                  */
@@ -313,7 +316,15 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                                  * DO NOT RUN THIS COMMAND IN A LOOP !
                                  */
 
-                                byte[] gpoRequestResponse = nfc.transceive(gpoRequestCommand);
+                                byte[] gpoRequestResponse;
+                                if (Arrays.equals(aidSelected, hexToBytes("a0000000032011"))) {
+                                //if (Arrays.equals(aidSelected, hexToBytes("a0000000032010"))) {
+                                    gpoRequestResponse = nfc.transceive(gpoRequestRealCommand);
+                                } else {
+                                    gpoRequestResponse = nfc.transceive(gpoRequestCommand);
+                                }
+                                //byte[] gpoRequestResponse = nfc.transceive(gpoRequestCommand);
+
                                 byte[] gpoRequestResponseOk;
                                 writeToUiAppend(etData, "05 get the processing options completed");
                                 if (gpoRequestResponse != null) {
@@ -343,6 +354,9 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                                  */
                                 //System.out.println("*** gpoResponse ***");
                                 //System.out.println(prettyPrintDataToString(gpoRequestResponse));
+
+                                // todo: check for gpoRequestResponseOK !!
+
                                 BerTlvs tlvsGpo = parser.parse(gpoRequestResponse);
                                 byte[] aflBytes = null;
 
@@ -1327,7 +1341,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
     }
 
     private void writeToUiAppend(String message) {
-        //System.out.println(message);
+        System.out.println(message);
         outputString = outputString + message + "\n";
     }
 

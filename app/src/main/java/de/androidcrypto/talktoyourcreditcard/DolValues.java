@@ -9,14 +9,18 @@ public class DolValues {
     private List<DolTag> dolList = new ArrayList<>();
     // used in PDOL
     private final DolTag t9f66 = setTag(new byte[]{(byte) 0x9f, (byte) 0x66}, "Terminal Transaction Qualifiers", hexBlankToBytes("27 00 00 00")); // default
+    // real terminal 36a04000
+    //private final DolTag t9f66 = setTag(new byte[]{(byte) 0x9f, (byte) 0x66}, "Terminal Transaction Qualifiers", hexBlankToBytes("36 a0 40 00")); // default
     private final DolTag t9f6600 = setTag(new byte[]{(byte) 0x9f, (byte) 0x66, (byte) 0x00}, "Terminal Transaction Qualifiers", hexBlankToBytes("27 00 00 00")); // default
+    // real private final DolTag t9f6600 = setTag(new byte[]{(byte) 0x9f, (byte) 0x66, (byte) 0x00}, "Terminal Transaction Qualifiers", hexBlankToBytes("36 a0 40 00")); // default
     private final DolTag t9f6601 = setTag(new byte[]{(byte) 0x9f, (byte) 0x66, (byte) 0x01}, "Terminal Transaction Qualifiers", hexBlankToBytes("B7 60 40 00")); // does not run with Lloyds Visa
     private final DolTag t9f6602 = setTag(new byte[]{(byte) 0x9f, (byte) 0x66, (byte) 0x02}, "Terminal Transaction Qualifiers", hexBlankToBytes("A0 00 00 00")); // runs on all my cards but returns not all afl
     private final DolTag t9f6603 = setTag(new byte[]{(byte) 0x9f, (byte) 0x66, (byte) 0x03}, "Terminal Transaction Qualifiers", hexBlankToBytes("F0 20 40 00")); // this fails on DKB debit card
     // online decoder: https://paymentcardtools.com/emv-tag-decoders/ttq
     private final DolTag t9f02 = setTag(new byte[]{(byte) 0x9f, (byte) 0x02}, "Transaction Amount", hexBlankToBytes("00 00 00 00 10 00")); // 00 00 00 00 10 00
     private final DolTag t9f03 = setTag(new byte[]{(byte) 0x9f, (byte) 0x03}, "Amount, Other (Numeric)", hexBlankToBytes("00 00 00 00 00 00"));
-    private final DolTag t9f1a = setTag(new byte[]{(byte) 0x9f, (byte) 0x1a}, "Terminal Country Code", hexBlankToBytes("09 78")); // eur
+    //private final DolTag t9f1a = setTag(new byte[]{(byte) 0x9f, (byte) 0x1a}, "Terminal Country Code", hexBlankToBytes("09 78")); // eur
+    private final DolTag t9f1a = setTag(new byte[]{(byte) 0x9f, (byte) 0x1a}, "Terminal Country Code", hexBlankToBytes("02 76")); // germany
     private final DolTag t95 = setTag(new byte[]{(byte) 0x95}, "Terminal Verificat.Results", hexBlankToBytes("00 00 00 00 00"));
     private final DolTag t5f2a = setTag(new byte[]{(byte) 0x5f, (byte) 0x2a}, "Transaction Currency Code", hexBlankToBytes("09 78")); // eur
     private final DolTag t9a = setTag(new byte[]{(byte) 0x9a}, "Transaction Date", hexBlankToBytes("23 03 01"));
@@ -85,11 +89,11 @@ public class DolValues {
     public String dump() {
         StringBuilder sb = new StringBuilder();
         sb.append("List of predefined tag and values for PDOL and CDOL").append("\n");
-        sb.append("Tag  Name                            Value").append("\n");
-        sb.append("-------------------------------------------------").append("\n");
+        sb.append("Tag    Name                            Value").append("\n");
+        sb.append("---------------------------------------------------").append("\n");
         for (int i = 0; i < dolList.size(); i++) {
             DolTag dol = dolList.get(i);
-            sb.append(trimStringRight(bytesToHexNpe(dol.getTag()), 5));
+            sb.append(trimStringRight(bytesToHexNpe(dol.getTag()), 7));
             sb.append(trimStringRight(dol.getTagName(), 32));
             sb.append(bytesToHexNpe(dol.getDefaultValue()));
             sb.append("\n");
