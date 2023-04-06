@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                                      * the following code is for VisaCards and (German) GiroCards as we found a PDOL
                                      */
                                     writeToUiAppend("");
-                                    writeToUiAppend("### processing the America Express, VisaCard and GiroCard path ###");
+                                    writeToUiAppend("### processing the American Express, VisaCard and GiroCard path ###");
                                     writeToUiAppend("");
                                     byte[] pdolValue = tag9f38.getBytesValue();
                                     /*
